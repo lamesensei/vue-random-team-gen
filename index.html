@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Random Teams</title>
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.0/css/bootstrap.min.css"
+    />
+  </head>
+  <body>
+    <div class="container" id="app">
+      <h1>Really Random Groups.</h1>
+      <div class="my-2">
+        <h3>Settings</h3>
+        <div class="row">
+          <div class="col-md-4">
+            <form v-on:submit.prevent="addName">
+              <label for="nameForm">Add People</label>
+              <input id="nameForm" class="form-control" />
+            </form>
+          </div>
+          <div class="col-md-4">
+            <form v-on:submit.prevent="addGroups">
+              <label for="groupForm">Set Groups (no.)</label>
+              <input id="groupForm" class="form-control" />
+            </form>
+          </div>
+        </div>
+      </div>
+      <div class="my-2">
+        <h3>
+          Humans
+          <small class="text-muted">Total: {{ humansCount }}</small>
+        </h3>
+        <div class="row">
+          <div class="col-lg-2 col-md-4" v-for="(name,index) in people">
+            <button class="btn btn-sm btn-outline-danger" v-on:click="removeName(index)">X</button>
+            {{ name.text }}
+          </div>
+        </div>
+      </div>
+      <div class="my2">
+        <h3>
+          Groups
+          <small class="text-muted">Total: {{ groupsCount }}</small>
+        </h3>
+        <div class="my-3">
+          <button class="btn btn-danger" v-on:click="shuffle">Shuffle</button>
+          <button class="btn btn-primary" v-on:click="split(2)">Pair</button>
+          <button class="btn btn-info" v-on:click="split(3)">Trio</button>
+          <button class="btn btn-success" v-on:click="split(4)">Fourio</button>
+          <button class="btn btn-warning" v-on:click="split(5)">Five'o</button>
+          <button class="btn btn-secondary" v-on:click="split('all')">Order</button>
+          <button class="btn btn-outline-secondary" v-on:click="arrow">Pick</button>
+        </div>
+        <div class="row">
+          <div class="col-md-2" v-for="(group,index) in groups">
+            <div class="card mb-2">
+              <div class="card-body">
+                <h5 class="card-title">
+                  {{ group.name }}
+                </h5>
+                <p class="card-text" v-for="member in group.members">{{ member.text }}</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+  <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+  <script src="app.js"></script>
+</html>
