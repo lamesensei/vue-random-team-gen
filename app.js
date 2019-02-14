@@ -118,7 +118,12 @@ var app = new Vue({
             queryString += "+";
           }
           queryString = queryString.slice(0, queryString.length - 1);
-          console.log(queryString);
+          let currentUrl = window.location.href;
+          let queryStringPos = window.location.href.indexOf(
+            window.location.search
+          );
+          let sexyUrl = currentUrl.slice(0, queryStringPos) + queryString;
+          window.history.replaceState({}, "", sexyUrl);
         }
       }
     },
