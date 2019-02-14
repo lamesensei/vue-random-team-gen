@@ -30,20 +30,39 @@
           </div>
         </div>
       </div>
-      <div class="my-2">
-        <h3>
-          Humans
-          <small class="text-muted">Total: {{ humansCount }}</small>
-        </h3>
-        <div class="row">
-          <div class="col-lg-2 col-md-4" v-for="(name,index) in people">
-            <button
-              class="btn btn-sm btn-outline-danger"
-              v-on:click="removePeople(index)"
-            >
-              X
-            </button>
-            {{ name.text }}
+      <div class="my-2 row">
+        <div class="col-6">
+          <h3>
+            Humans
+            <small class="text-muted">Total: {{ humansCount }}</small>
+          </h3>
+          <div class="row">
+            <div class="col-lg-2 col-md-4" v-for="(name,index) in people">
+              <button
+                class="btn btn-sm btn-outline-danger"
+                v-on:click="removePeople(index)"
+              >
+                X
+              </button>
+              {{ name.text }}
+            </div>
+          </div>
+        </div>
+        <div class="col-6">
+          <h3>
+            Bench
+            <small class="text-muted">Total: {{ benchCount }}</small>
+          </h3>
+          <div class="row">
+            <div class="col-lg-2 col-md-4" v-for="(name,index) in bench">
+              <button
+                class="btn btn-sm btn-outline-danger"
+                v-on:click="removePeople(index)"
+              >
+                X
+              </button>
+              {{ name.text }}
+            </div>
           </div>
         </div>
       </div>
