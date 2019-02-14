@@ -1,22 +1,33 @@
 var app = new Vue({
-  el: '#app',
+  el: "#app",
   data: {
     people: [],
-    groups: []
+    bench: [],
+    groups: [],
+    peepShow: true
   },
   methods: {
-    addName() {
-      input = document.querySelector('#nameForm');
-      if (input.value) {
+    addPeople(e, peep) {
+      let input = document.querySelector("#nameForm");
+      let value = peep || input.value;
+      if (value) {
         this.people.push({
           no: this.people.length + 1,
-          text: input.value
+          text: value
         });
       }
-      input.value = '';
+      input.value = "";
     },
-    removeName(index) {
+    removePeople(index) {
+      this.bench.splice(index, 1);
+    },
+    benchPeople(index) {
+      this.bench.push(this.people[index]);
       this.people.splice(index, 1);
+    },
+    returnFromBench(index) {
+      this.people.push(this.bench[index]);
+      this.bench.splice(index, 1);
     },
     shuffle() {
       for (group of this.groups) {
@@ -47,10 +58,10 @@ var app = new Vue({
       }
     },
     addGroups(n) {
-      input = document.querySelector('#groupForm');
+      input = document.querySelector("#groupForm");
       let temp = [];
       let value = input.value || n;
-      input.value = '';
+      input.value = "";
       if (value) {
         let i = 1;
         while (i <= value) {
@@ -68,7 +79,7 @@ var app = new Vue({
       for (group of this.groups) {
         group.members = [];
       }
-      if (n == 'all') this.addGroups(this.people.length);
+      if (n == "all") this.addGroups(this.people.length);
       let modifier = this.people.length;
       if (modifier % 2 !== 0) modifier++;
       this.addGroups(Math.floor(modifier / n));
@@ -76,10 +87,13 @@ var app = new Vue({
     },
     arrow() {
       let index = Math.floor(Math.random() * this.groups.length);
-      let prev = document.querySelector('.bg-light');
-      let sabo = document.querySelectorAll('.card')[index];
-      if (prev) prev.classList.toggle('bg-light');
-      sabo.classList.toggle('bg-light');
+      let prev = document.querySelector(".bg-warning");
+      let sabo = document.querySelectorAll(".card")[index];
+      if (prev) prev.classList.toggle("bg-warning");
+      sabo.classList.toggle("bg-warning");
+    },
+    togglePeeps() {
+      this.peepShow ? (this.peepShow = false) : (this.peepShow = true);
     }
   },
   computed: {
@@ -88,18 +102,46 @@ var app = new Vue({
     },
     groupsCount() {
       return this.groups.length;
+    },
+    benchCount() {
+      return this.bench.length;
     }
   },
   watch: {
     people: {
       handler() {
-        localStorage.setItem('people', JSON.stringify(this.people));
+        localStorage.setItem("people", JSON.stringify(this.people));
+        if (this.people.length > 0) {
+          let queryString = "?people=";
+          for (peep of this.people) {
+            queryString += peep.text;
+            queryString += "+";
+          }
+          queryString = queryString.slice(0, queryString.length - 1);
+          let currentUrl = window.location.href;
+          let queryStringPos = window.location.href.indexOf(
+            window.location.search
+          );
+          let sexyUrl = currentUrl.slice(0, queryStringPos) + queryString;
+          window.history.replaceState({}, "", sexyUrl);
+        }
+      }
+    },
+    bench: {
+      handler() {
+        localStorage.setItem("bench", JSON.stringify(this.bench));
       }
     }
   },
   mounted() {
-    if (localStorage['people']) {
-      this.people = [...JSON.parse(localStorage['people'])];
+    if (window.location.search.includes("people")) {
+      let queryString = window.location.search.slice(8).split("+");
+      for (peep of queryString) {
+        this.addPeople(0, peep);
+      }
+    } else if (localStorage["people"]) {
+      this.people = [...JSON.parse(localStorage["people"])];
+      this.bench = [...JSON.parse(localStorage["bench"])];
     }
   }
 });
