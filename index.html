@@ -31,13 +31,13 @@
         </div>
       </div>
       <div class="my-2 row">
-        <div class="col-6">
+        <div class="col-8">
           <h3>
             Humans
             <small class="text-muted">Total: {{ humansCount }}</small>
           </h3>
           <div class="row">
-            <div class="col-lg-2 col-md-4 my-2" v-for="(name,index) in people">
+            <div class="col-md-4 my-2" v-for="(name,index) in people">
               <button
                 class="btn btn-sm btn-outline-warning"
                 v-on:click="benchPeople(index)"
@@ -48,13 +48,13 @@
             </div>
           </div>
         </div>
-        <div class="col-6">
+        <div class="col-4">
           <h3>
             Bench
             <small class="text-muted">Total: {{ benchCount }}</small>
           </h3>
           <div class="row">
-            <div class="col-lg-2 col-md-4 my-2" v-for="(name,index) in bench">
+            <div class="col-md-4 my-2" v-for="(name,index) in bench">
               <button
                 class="btn btn-sm btn-outline-success"
                 v-on:click="returnFromBench(index)"

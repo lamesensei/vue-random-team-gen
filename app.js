@@ -6,12 +6,13 @@ var app = new Vue({
     groups: []
   },
   methods: {
-    addPeople() {
-      input = document.querySelector("#nameForm");
-      if (input.value) {
+    addPeople(e, peep) {
+      let input = document.querySelector("#nameForm");
+      let value = peep || input.value;
+      if (value) {
         this.people.push({
           no: this.people.length + 1,
-          text: input.value
+          text: value
         });
       }
       input.value = "";
@@ -106,6 +107,15 @@ var app = new Vue({
     people: {
       handler() {
         localStorage.setItem("people", JSON.stringify(this.people));
+        if (this.people.length > 0) {
+          let queryString = "?people=";
+          for (peep of this.people) {
+            queryString += peep.text;
+            queryString += "+";
+          }
+          queryString = queryString.slice(0, queryString.length - 1);
+          console.log(queryString);
+        }
       }
     },
     bench: {
@@ -115,7 +125,12 @@ var app = new Vue({
     }
   },
   mounted() {
-    if (localStorage["people"]) {
+    if (window.location.search.includes("people")) {
+      let queryString = window.location.search.slice(8).split("+");
+      for (peep of queryString) {
+        this.addPeople(0, peep);
+      }
+    } else if (localStorage["people"]) {
       this.people = [...JSON.parse(localStorage["people"])];
       this.bench = [...JSON.parse(localStorage["bench"])];
     }
