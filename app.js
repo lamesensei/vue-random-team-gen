@@ -2,6 +2,7 @@ var app = new Vue({
   el: "#app",
   data: {
     people: [],
+    bench: [],
     groups: []
   },
   methods: {
@@ -16,7 +17,15 @@ var app = new Vue({
       input.value = "";
     },
     removePeople(index) {
+      this.bench.splice(index, 1);
+    },
+    benchPeople(index) {
+      this.bench.push(this.people[index]);
       this.people.splice(index, 1);
+    },
+    returnFromBench(index) {
+      this.people.push(this.bench[index]);
+      this.bench.splice(index, 1);
     },
     shuffle() {
       for (group of this.groups) {
@@ -88,6 +97,9 @@ var app = new Vue({
     },
     groupsCount() {
       return this.groups.length;
+    },
+    benchCount() {
+      return this.bench.length;
     }
   },
   watch: {
@@ -95,11 +107,17 @@ var app = new Vue({
       handler() {
         localStorage.setItem("people", JSON.stringify(this.people));
       }
+    },
+    bench: {
+      handler() {
+        localStorage.setItem("bench", JSON.stringify(this.bench));
+      }
     }
   },
   mounted() {
     if (localStorage["people"]) {
       this.people = [...JSON.parse(localStorage["people"])];
+      this.bench = [...JSON.parse(localStorage["bench"])];
     }
   }
 });
