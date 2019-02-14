@@ -17,7 +17,7 @@
         <h3>Settings</h3>
         <div class="row">
           <div class="col-md-4">
-            <form v-on:submit.prevent="addName">
+            <form v-on:submit.prevent="addPeople">
               <label for="nameForm">Add People</label>
               <input id="nameForm" class="form-control" />
             </form>
@@ -37,7 +37,12 @@
         </h3>
         <div class="row">
           <div class="col-lg-2 col-md-4" v-for="(name,index) in people">
-            <button class="btn btn-sm btn-outline-danger" v-on:click="removeName(index)">X</button>
+            <button
+              class="btn btn-sm btn-outline-danger"
+              v-on:click="removePeople(index)"
+            >
+              X
+            </button>
             {{ name.text }}
           </div>
         </div>
@@ -53,8 +58,12 @@
           <button class="btn btn-info" v-on:click="split(3)">Trio</button>
           <button class="btn btn-success" v-on:click="split(4)">Fourio</button>
           <button class="btn btn-warning" v-on:click="split(5)">Five'o</button>
-          <button class="btn btn-secondary" v-on:click="split('all')">Order</button>
-          <button class="btn btn-outline-secondary" v-on:click="arrow">Pick</button>
+          <button class="btn btn-secondary" v-on:click="split('all')">
+            Order
+          </button>
+          <button class="btn btn-outline-secondary" v-on:click="arrow">
+            Pick
+          </button>
         </div>
         <div class="row">
           <div class="col-md-2" v-for="(group,index) in groups">
@@ -63,7 +72,9 @@
                 <h5 class="card-title">
                   {{ group.name }}
                 </h5>
-                <p class="card-text" v-for="member in group.members">{{ member.text }}</p>
+                <p class="card-text" v-for="member in group.members">
+                  {{ member.text }}
+                </p>
               </div>
             </div>
           </div>

@@ -1,21 +1,21 @@
 var app = new Vue({
-  el: '#app',
+  el: "#app",
   data: {
     people: [],
     groups: []
   },
   methods: {
-    addName() {
-      input = document.querySelector('#nameForm');
+    addPeople() {
+      input = document.querySelector("#nameForm");
       if (input.value) {
         this.people.push({
           no: this.people.length + 1,
           text: input.value
         });
       }
-      input.value = '';
+      input.value = "";
     },
-    removeName(index) {
+    removePeople(index) {
       this.people.splice(index, 1);
     },
     shuffle() {
@@ -47,10 +47,10 @@ var app = new Vue({
       }
     },
     addGroups(n) {
-      input = document.querySelector('#groupForm');
+      input = document.querySelector("#groupForm");
       let temp = [];
       let value = input.value || n;
-      input.value = '';
+      input.value = "";
       if (value) {
         let i = 1;
         while (i <= value) {
@@ -68,7 +68,7 @@ var app = new Vue({
       for (group of this.groups) {
         group.members = [];
       }
-      if (n == 'all') this.addGroups(this.people.length);
+      if (n == "all") this.addGroups(this.people.length);
       let modifier = this.people.length;
       if (modifier % 2 !== 0) modifier++;
       this.addGroups(Math.floor(modifier / n));
@@ -76,10 +76,10 @@ var app = new Vue({
     },
     arrow() {
       let index = Math.floor(Math.random() * this.groups.length);
-      let prev = document.querySelector('.bg-light');
-      let sabo = document.querySelectorAll('.card')[index];
-      if (prev) prev.classList.toggle('bg-light');
-      sabo.classList.toggle('bg-light');
+      let prev = document.querySelector(".bg-light");
+      let sabo = document.querySelectorAll(".card")[index];
+      if (prev) prev.classList.toggle("bg-light");
+      sabo.classList.toggle("bg-light");
     }
   },
   computed: {
@@ -93,13 +93,13 @@ var app = new Vue({
   watch: {
     people: {
       handler() {
-        localStorage.setItem('people', JSON.stringify(this.people));
+        localStorage.setItem("people", JSON.stringify(this.people));
       }
     }
   },
   mounted() {
-    if (localStorage['people']) {
-      this.people = [...JSON.parse(localStorage['people'])];
+    if (localStorage["people"]) {
+      this.people = [...JSON.parse(localStorage["people"])];
     }
   }
 });
