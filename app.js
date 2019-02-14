@@ -3,7 +3,8 @@ var app = new Vue({
   data: {
     people: [],
     bench: [],
-    groups: []
+    groups: [],
+    peepShow: true
   },
   methods: {
     addPeople(e, peep) {
@@ -90,6 +91,9 @@ var app = new Vue({
       let sabo = document.querySelectorAll(".card")[index];
       if (prev) prev.classList.toggle("bg-warning");
       sabo.classList.toggle("bg-warning");
+    },
+    togglePeeps() {
+      this.peepShow ? (this.peepShow = false) : (this.peepShow = true);
     }
   },
   computed: {

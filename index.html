@@ -16,13 +16,13 @@
       <div class="my-2">
         <h3>Settings</h3>
         <div class="row">
-          <div class="col-md-4">
+          <div class="col-md-3">
             <form v-on:submit.prevent="addPeople">
               <label for="nameForm">Add People</label>
               <input id="nameForm" class="form-control" />
             </form>
           </div>
-          <div class="col-md-4">
+          <div class="col-md-3">
             <form v-on:submit.prevent="addGroups">
               <label for="groupForm">Set Groups (no.)</label>
               <input id="groupForm" class="form-control" />
@@ -30,19 +30,33 @@
           </div>
         </div>
       </div>
+      <button
+        v-if="peepShow"
+        v-on:click="togglePeeps"
+        class="btn btn-outline-info"
+      >
+        Hide
+      </button>
+      <button
+        v-else="peepShow"
+        v-on:click="togglePeeps"
+        class="btn btn-outline-success"
+      >
+        Show
+      </button>
       <div class="my-2 row">
         <div class="col-8">
           <h3>
             Humans
             <small class="text-muted">Total: {{ humansCount }}</small>
           </h3>
-          <div class="row">
+          <div class="row" v-if="peepShow">
             <div class="col-md-4 my-2" v-for="(name,index) in people">
               <button
                 class="btn btn-sm btn-outline-info"
                 v-on:click="benchPeople(index)"
               >
-              &#x25BC
+                &#x25BC;
               </button>
               {{ name.text }}
             </div>
@@ -53,21 +67,21 @@
             Bench
             <small class="text-muted">Total: {{ benchCount }}</small>
           </h3>
-          <div class="row">
+          <div class="row" v-if="peepShow">
             <div class="col-md-4 my-2" v-for="(name,index) in bench">
               <button
                 class="btn btn-sm btn-outline-success"
                 v-on:click="returnFromBench(index)"
               >
-              &#x25B2
+                &#x25B2;
               </button>
               {{ name.text }}
               <button
-              class="btn btn-sm btn-outline-danger"
-              v-on:click="removePeople(index)"
-            >
-            X
-            </button>
+                class="btn btn-sm btn-outline-danger"
+                v-on:click="removePeople(index)"
+              >
+                X
+              </button>
             </div>
           </div>
         </div>
