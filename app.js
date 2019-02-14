@@ -137,6 +137,7 @@ var app = new Vue({
     if (window.location.search.includes("people")) {
       let queryString = window.location.search.slice(8).split("+");
       for (peep of queryString) {
+        peep = decodeURI(peep);
         this.addPeople(0, peep);
       }
     } else if (localStorage["people"]) {
