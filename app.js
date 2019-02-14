@@ -86,10 +86,10 @@ var app = new Vue({
     },
     arrow() {
       let index = Math.floor(Math.random() * this.groups.length);
-      let prev = document.querySelector(".bg-light");
+      let prev = document.querySelector(".bg-warning");
       let sabo = document.querySelectorAll(".card")[index];
-      if (prev) prev.classList.toggle("bg-light");
-      sabo.classList.toggle("bg-light");
+      if (prev) prev.classList.toggle("bg-warning");
+      sabo.classList.toggle("bg-warning");
     }
   },
   computed: {
