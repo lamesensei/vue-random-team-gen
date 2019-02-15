@@ -131,6 +131,11 @@ var app = new Vue({
         localStorage.setItem("bench", JSON.stringify(this.bench));
       }
     },
+    groups: {
+      handler() {
+        localStorage.setItem("groups", JSON.stringify(this.groups));
+      }
+    },
     customGroup: {
       handler() {
         if (this.customGroup.length > 0) {
@@ -152,7 +157,11 @@ var app = new Vue({
       }
     } else if (localStorage["people"]) {
       this.people = [...JSON.parse(localStorage["people"])];
-      this.bench = [...JSON.parse(localStorage["bench"])];
     }
+
+    if (localStorage["bench"])
+      this.bench = [...JSON.parse(localStorage["bench"])];
+    if (localStorage["groups"])
+      this.groups = [...JSON.parse(localStorage["groups"])];
   }
 });
