@@ -19,7 +19,11 @@
             <div class="col">
               <h3>Add People</h3>
               <form v-on:submit.prevent="addPeople" class="form-inline">
-                <input id="nameForm" class="form-control mr-2" />
+                <input
+                  id="nameForm"
+                  class="form-control mr-2"
+                  autocomplete="off"
+                />
                 <button class="btn btn-success">+</button>
               </form>
             </div>
@@ -97,6 +101,7 @@
                 class="form-control my-2 w-50"
                 placeholder="Custom no. of Groups"
                 v-model="customGroup"
+                autocomplete="off"
               />
             </div>
             <div class="row">
