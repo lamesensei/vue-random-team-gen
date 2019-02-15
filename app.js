@@ -4,7 +4,8 @@ var app = new Vue({
     people: [],
     bench: [],
     groups: [],
-    peepShow: true
+    peepShow: true,
+    customGroup: undefined
   },
   methods: {
     addPeople(e, peep) {
@@ -58,10 +59,8 @@ var app = new Vue({
       }
     },
     addGroups(n) {
-      input = document.querySelector("#groupForm");
       let temp = [];
-      let value = input.value || n;
-      input.value = "";
+      let value = n;
       if (value) {
         let i = 1;
         while (i <= value) {
@@ -130,6 +129,17 @@ var app = new Vue({
     bench: {
       handler() {
         localStorage.setItem("bench", JSON.stringify(this.bench));
+      }
+    },
+    customGroup: {
+      handler() {
+        if (this.customGroup.length > 0) {
+          let n = this.customGroup.slice(0, 2);
+          this.addGroups(n);
+          this.shuffle();
+        } else {
+          this.groups = [];
+        }
       }
     }
   },
