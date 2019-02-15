@@ -14,22 +14,22 @@
     <div class="container" id="app">
       <h1 class="mb-4"><u>Really Random Groups</u>.</h1>
       <div class="row">
-        <div class="col-4">
+        <div class="col-md-4">
           <div class="row mb-2">
             <div class="col">
               <h3>Add People</h3>
               <form v-on:submit.prevent="addPeople" class="form-inline">
                 <input
                   id="nameForm"
-                  class="form-control mr-2"
+                  class="form-control form-control-sm mr-2"
                   autocomplete="off"
                 />
-                <button class="btn btn-success">+</button>
+                <button class="btn btn-success btn-sm">+</button>
               </form>
             </div>
           </div>
           <div class="row no-gutters">
-            <div class="col">
+            <div class="col-lg-6 col-md-12">
               <h4>
                 Humans
                 <small class="text-muted">: {{ humansCount }}</small>
@@ -70,35 +70,40 @@
             </div>
           </div>
         </div>
-        <div class="col-8">
+        <div class="col-md-8">
           <div class="my2">
             <h3>
               Groups
               <small class="text-muted">Total: {{ groupsCount }}</small>
             </h3>
             <div class="my-3">
-              <button class="btn btn-danger" v-on:click="shuffle">
+              <button class="btn btn-danger btn-sm" v-on:click="shuffle">
                 Shuffle
               </button>
-              <button class="btn btn-primary" v-on:click="split(2)">
+              <button class="btn btn-primary btn-sm" v-on:click="split(2)">
                 Pair
               </button>
-              <button class="btn btn-info" v-on:click="split(3)">Trio</button>
-              <button class="btn btn-success" v-on:click="split(4)">
+              <button class="btn btn-info btn-sm" v-on:click="split(3)">
+                Trio
+              </button>
+              <button class="btn btn-success btn-sm" v-on:click="split(4)">
                 Fourio
               </button>
-              <button class="btn btn-warning" v-on:click="split(5)">
+              <button class="btn btn-warning btn-sm" v-on:click="split(5)">
                 Five'o
               </button>
-              <button class="btn btn-secondary" v-on:click="split('all')">
+              <button
+                class="btn btn-secondary btn-sm"
+                v-on:click="split('all')"
+              >
                 Order
               </button>
-              <button class="btn btn-outline-secondary" v-on:click="arrow">
+              <button class="btn btn-outline-secondary btn-sm" v-on:click="arrow">
                 Pick
               </button>
               <input
                 id="groupForm"
-                class="form-control my-2 w-50"
+                class="form-control-sm form-control my-2 w-50"
                 placeholder="Custom no. of Groups"
                 v-model="customGroup"
                 autocomplete="off"
