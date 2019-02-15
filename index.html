@@ -53,12 +53,11 @@
           <div class="row" v-if="peepShow">
             <div class="col-md-4 my-2" v-for="(name,index) in people">
               <button
-                class="btn btn-sm btn-outline-info"
+                class="btn btn-sm btn-info w-100"
                 v-on:click="benchPeople(index)"
               >
-                <strong>-</strong>
+                {{ name.text }}
               </button>
-              {{ name.text }}
             </div>
           </div>
         </div>
@@ -68,16 +67,16 @@
             <small class="text-muted">Total: {{ benchCount }}</small>
           </h3>
           <div class="row" v-if="peepShow">
-            <div class="col-md-4 my-2" v-for="(name,index) in bench">
+            <div class="col-12 my-2" v-for="(name,index) in bench">
               <button
-                class="btn btn-sm btn-outline-success"
+                class="btn btn-sm btn-success w-75"
                 v-on:click="returnFromBench(index)"
               >
-                <strong>+</strong>
+                {{ name.text }}
               </button>
-              {{ name.text }}
+
               <button
-                class="btn btn-sm btn-outline-danger"
+                class="btn btn-sm btn-outline-danger font-weight-bold"
                 v-on:click="removePeople(index)"
               >
                 X
