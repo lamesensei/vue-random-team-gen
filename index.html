@@ -93,13 +93,13 @@
                 class="form-control w-25"
                 placeholder="Custom no. of Groups"
                 v-model="customGroup"
-                v-if="splitOption"
+                v-if="customGroupOption"
                 autocomplete="off"
               />
               <select
                 class="form-control w-25"
                 v-model="splitInto"
-                v-if="!splitOption"
+                v-if="!customGroupOption"
               >
                 <option value="2">Pair</option>
                 <option value="3">Threes</option>
@@ -125,7 +125,7 @@
               <input
                 type="checkbox"
                 class="form-check-input"
-                v-model="splitOption"
+                v-model="customGroupOption"
               />
               <label class="form-check-label">Custom Groups</label>
             </div>

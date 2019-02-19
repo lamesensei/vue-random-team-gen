@@ -8,7 +8,7 @@ var app = new Vue({
     peepShow: true,
     customGroup: undefined,
     splitInto: "2",
-    splitOption: false
+    customGroupOption: false
   },
   methods: {
     addPeople(e, peep) {
@@ -53,7 +53,9 @@ var app = new Vue({
       let turn = 0;
       let end = this.groups.length - 1;
       let limit =
-        this.humansCount % (this.splitInto == "all" ? 1 : this.splitInto);
+        this.humansCount % (this.splitInto != "2" ? 1 : this.splitInto);
+
+      if (this.customGroupOption) limit = 0;
 
       while (peeps.length > limit) {
         if (turn > end) turn = 0;
@@ -75,7 +77,6 @@ var app = new Vue({
       });
     },
     makeGroups(n) {
-      console.log(n);
       let temp = [];
       let i = 1;
 
@@ -193,7 +194,8 @@ var app = new Vue({
         if (this.customGroup.length > 0) {
           let n = this.customGroup.slice(0, 2);
           this.makeGroups(n);
-          this.shuffle();
+          this.prePeople = [...this.people];
+          this.fillGroups(this.shuffle(this.people));
         } else {
           this.groups = [];
         }
