@@ -100,12 +100,19 @@ var app = new Vue({
       this.fillGroups(this.shuffle(this.people));
     },
     arrow() {
-      let index = Math.floor(Math.random() * this.groups.length);
-      let prev = document.querySelector(".bg-warning");
-      let sabo = document.querySelectorAll(".card")[index];
+      highlight = () => {
+        let index = Math.floor(Math.random() * this.groups.length);
+        let prev = document.querySelector(".bg-warning");
+        let sabo = document.querySelectorAll(".card")[index];
+        if (prev) prev.classList.toggle("bg-warning");
+        sabo.classList.toggle("bg-warning");
+      };
 
-      if (prev) prev.classList.toggle("bg-warning");
-      sabo.classList.toggle("bg-warning");
+      let discoShow = setInterval(highlight, 100);
+      setTimeout(() => {
+        clearInterval(discoShow);
+        setTimeout(highlight, 800);
+      }, 2000);
     },
     togglePeeps() {
       this.peepShow ? (this.peepShow = false) : (this.peepShow = true);
