@@ -6,7 +6,7 @@ var app = new Vue({
     groups: [],
     peepShow: true,
     customGroup: undefined,
-    splitInto: "",
+    splitInto: "2",
     splitOption: false
   },
   methods: {
@@ -145,6 +145,7 @@ var app = new Vue({
     groups: {
       handler() {
         localStorage.setItem("groups", JSON.stringify(this.groups));
+        localStorage.setItem("splitInto", this.splitInto);
       }
     },
     customGroup: {
@@ -181,5 +182,6 @@ var app = new Vue({
       this.bench = [...JSON.parse(localStorage["bench"])];
     if (localStorage["groups"])
       this.groups = [...JSON.parse(localStorage["groups"])];
+    if (localStorage["splitInto"]) this.splitInto = localStorage["splitInto"];
   }
 });

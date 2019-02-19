@@ -32,7 +32,7 @@
               <form v-on:submit.prevent="addPeople" class="form-inline">
                 <input
                   id="nameForm"
-                  class="form-control mr-2"
+                  class="form-control mr-2 w-75"
                   autocomplete="off"
                 />
                 <button class="btn btn-outline-secondary">+</button>
@@ -101,7 +101,6 @@
                 v-model="splitInto"
                 v-if="!splitOption"
               >
-                <option disabled value="">Split into:</option>
                 <option value="2">Pair</option>
                 <option value="3">Threes</option>
                 <option value="4">Fours</option>
