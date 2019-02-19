@@ -20,7 +20,7 @@
     <div class="container-fluid" id="app">
       <h1 class="mb-4"><u>Really Random Groups</u>.</h1>
       <div class="row">
-        <div class="col-md-4">
+        <div class="col-md-4 order-last order-md-first">
           <div class="row mb-2">
             <div class="col">
               <h3>
@@ -40,7 +40,7 @@
             </div>
           </div>
           <div class="row no-gutters">
-            <div class="col-7">
+            <div class="col">
               <h4 class="test-nowrap">
                 Present
                 <small class="text-muted">{{ humansCount }}</small>
@@ -56,7 +56,7 @@
                 </div>
               </div>
             </div>
-            <div class="col-5">
+            <div class="col">
               <h4>
                 Absent
                 <small class="text-muted">{{ benchCount }}</small>
@@ -67,7 +67,7 @@
                   v-for="(name,index) in bench"
                 >
                   <button
-                    class="btn btn-sm btn-secondary w-75"
+                    class="btn btn-sm btn-secondary w-50"
                     v-on:click="returnFromBench(index)"
                   >
                     {{ name.text }}
@@ -93,13 +93,13 @@
                 class="form-control w-25"
                 placeholder="Custom no. of Groups"
                 v-model="customGroup"
-                v-if="!splitOption"
+                v-if="splitOption"
                 autocomplete="off"
               />
               <select
                 class="form-control w-25"
                 v-model="splitInto"
-                v-if="splitOption"
+                v-if="!splitOption"
               >
                 <option disabled value="">Split into:</option>
                 <option value="2">Pair</option>
@@ -107,20 +107,20 @@
                 <option value="4">Fours</option>
                 <option value="5">Fives</option>
               </select>
-              <div class="form-check form-check-inline">
-                <label class="form-check-label">Custom Group</label>
-                <input
-                  type="checkbox"
-                  class="form-check-input"
-                  v-model="splitOption"
-                />
-              </div>
 
               <div class="btn-group ml-2">
                 <button class="btn btn-danger btn-sm" v-on:click="shuffle">
                   Shuffle
                 </button>
               </div>
+            </div>
+            <div class="form-check form-check-inline mb-3">
+              <input
+                type="checkbox"
+                class="form-check-input"
+                v-model="splitOption"
+              />
+              <label class="form-check-label">Custom Groups</label>
             </div>
             <div class="row">
               <div class="col-md-4 col-6 mb-2" v-for="(group,index) in groups">

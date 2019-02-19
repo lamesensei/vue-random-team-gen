@@ -7,7 +7,7 @@ var app = new Vue({
     peepShow: true,
     customGroup: undefined,
     splitInto: "",
-    splitOption: true
+    splitOption: false
   },
   methods: {
     addPeople(e, peep) {
