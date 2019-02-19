@@ -63,11 +63,11 @@
               </h4>
               <div class="row">
                 <div
-                  class="col-12 mb-1 btn-group w-50"
+                  class="col-12 mb-1 btn-group w-75"
                   v-for="(name,index) in sortedBench"
                 >
                   <button
-                    class="btn btn-sm btn-secondary"
+                    class="btn btn-sm btn-secondary w-75"
                     v-on:click="returnFromBench(index)"
                   >
                     {{ name.text }}
@@ -105,16 +105,17 @@
                 <option value="3">Threes</option>
                 <option value="4">Fours</option>
                 <option value="5">Fives</option>
+                <option value="all">Order</option>
               </select>
 
               <div class="btn-group ml-2">
-                <button class="btn btn-danger btn-sm" v-on:click="split">
+                <button class="btn btn-danger" v-on:click="split">
                   Shuffle
                 </button>
                 <button
-                  class="btn btn-secondary btn-sm"
+                  class="btn btn-warning"
                   v-on:click="fill"
-                  v-if="prePeopleCount != humansCount"
+                  v-if="humansCount > prePeopleCount"
                 >
                   Fill
                 </button>

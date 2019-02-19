@@ -33,56 +33,70 @@ var app = new Vue({
       this.people.push(this.bench[index]);
       this.bench.splice(index, 1);
     },
-    shuffle() {
-      this.clearGroups();
+    shuffle(stuff) {
+      let mirror = [...stuff];
+      let max = stuff.length;
+      let swap, rand;
 
-      if (this.groups.length > 0) {
-        let mirror = [...this.people];
-        let max = this.people.length;
-        let swap, rand;
+      while (max !== 0) {
+        rand = Math.floor(Math.random() * max);
+        max--;
 
-        while (max !== 0) {
-          rand = Math.floor(Math.random() * max);
-          max--;
+        swap = mirror[max];
+        mirror[max] = mirror[rand];
+        mirror[rand] = swap;
+      }
 
-          swap = mirror[max];
-          mirror[max] = mirror[rand];
-          mirror[rand] = swap;
-        }
+      return mirror;
+    },
+    fillGroups(peeps) {
+      let turn = 0;
+      let end = this.groups.length - 1;
+      let limit =
+        this.humansCount % (this.splitInto == "all" ? 1 : this.splitInto);
 
-        let turn = 0;
-        let limit = this.groups.length - 1;
-        while (mirror.length > 0) {
-          if (turn > limit) turn = 0;
-          this.groups[turn].members.push(mirror.shift());
-          turn++;
+      while (peeps.length > limit) {
+        if (turn > end) turn = 0;
+        this.groups[turn].members.push(peeps.shift());
+        turn++;
+      }
+
+      if (peeps.length > 0) {
+        this.addGroup();
+        while (peeps.length > 0) {
+          this.groups[this.groups.length - 1].members.push(peeps.shift());
         }
       }
     },
-    addGroups(n) {
+    addGroup() {
+      this.groups.push({
+        name: this.groups[this.groups.length - 1].name + 1,
+        members: []
+      });
+    },
+    makeGroups(n) {
+      console.log(n);
       let temp = [];
-      let value = n;
-      if (value) {
-        let i = 1;
-        while (i <= value) {
-          let group = {
-            name: i,
-            members: []
-          };
-          temp.push(group);
-          i++;
-        }
-        return (this.groups = [...temp]);
+      let i = 1;
+
+      while (i <= n) {
+        let group = {
+          name: i,
+          members: []
+        };
+        temp.push(group);
+        i++;
       }
+      return (this.groups = [...temp]);
     },
     split() {
       this.clearGroups();
 
       let modifier = this.people.length;
-      if (modifier % 2 !== 0) modifier++;
-      this.addGroups(Math.floor(modifier / this.splitInto));
+      let split = this.splitInto == "all" ? 1 : Number(this.splitInto);
+      this.makeGroups(Math.floor(modifier / split));
       this.prePeople = [...this.people];
-      this.shuffle();
+      this.fillGroups(this.shuffle(this.people));
     },
     arrow() {
       let index = Math.floor(Math.random() * this.groups.length);
@@ -100,6 +114,7 @@ var app = new Vue({
       this.people.forEach(person => {
         if (!this.prePeople.includes(person)) newPeople.push(person);
       });
+      newPeople = this.shuffle(newPeople);
       while (newPeople.length > 0) {
         if (
           this.groups[this.groups.length - 1].members.length <
@@ -180,7 +195,7 @@ var app = new Vue({
       handler() {
         if (this.customGroup.length > 0) {
           let n = this.customGroup.slice(0, 2);
-          this.addGroups(n);
+          this.makeGroups(n);
           this.shuffle();
         } else {
           this.groups = [];
@@ -202,6 +217,7 @@ var app = new Vue({
         peep = decodeURI(peep);
         this.addPeople(0, peep);
       }
+      this.prePeople = [...this.people];
     } else if (localStorage["people"]) {
       this.people = [...JSON.parse(localStorage["people"])];
     }
