@@ -118,14 +118,11 @@ var app = new Vue({
       while (newPeople.length > 0) {
         if (
           this.groups[this.groups.length - 1].members.length <
-          Number(this.splitInto)
+          (this.splitInto == "all" ? 1 : Number(this.splitInto))
         ) {
           this.groups[this.groups.length - 1].members.push(newPeople.shift());
         } else {
-          this.groups.push({
-            name: this.groups[this.groups.length - 1].name + 1,
-            members: []
-          });
+          this.addGroup();
         }
       }
       this.prePeople = [...this.people];
