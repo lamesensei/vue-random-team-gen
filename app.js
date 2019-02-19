@@ -76,14 +76,13 @@ var app = new Vue({
         return (this.groups = [...temp]);
       }
     },
-    split(n) {
+    split() {
       for (group of this.groups) {
         group.members = [];
       }
-      if (n == "all") this.addGroups(this.people.length);
       let modifier = this.people.length;
       if (modifier % 2 !== 0) modifier++;
-      this.addGroups(Math.floor(modifier / n));
+      this.addGroups(Math.floor(modifier / this.splitInto));
       this.shuffle();
     },
     arrow() {
