@@ -106,6 +106,16 @@ var app = new Vue({
     },
     benchCount() {
       return this.bench.length;
+    },
+    sortedPeople() {
+      return this.people.sort((a, b) =>
+        a.text > b.text ? 1 : b.text > a.text ? -1 : 0
+      );
+    },
+    sortedBench() {
+      return this.bench.sort((a, b) =>
+        a.text > b.text ? 1 : b.text > a.text ? -1 : 0
+      );
     }
   },
   watch: {
