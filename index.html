@@ -9,111 +9,141 @@
       rel="stylesheet"
       href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.0/css/bootstrap.min.css"
     />
+    <link
+      rel="stylesheet"
+      href="https://use.fontawesome.com/releases/v5.7.2/css/all.css"
+      integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr"
+      crossorigin="anonymous"
+    />
   </head>
   <body>
-    <div class="container" id="app">
-      <h1>Really Random Groups.</h1>
-      <div class="my-2">
-        <h3>Settings</h3>
-        <div class="row">
-          <div class="col-md-3">
-            <form v-on:submit.prevent="addPeople">
-              <label for="nameForm">Add People</label>
-              <input id="nameForm" class="form-control" />
-            </form>
+    <div class="container-fluid" id="app">
+      <h1 class="mb-4"><u>Really Random Groups</u>.</h1>
+      <div class="row">
+        <div class="col-md-4 order-last order-md-first">
+          <div class="row mb-2">
+            <div class="col">
+              <h3>
+                People
+                <small class="text-muted">
+                  Total: {{ humansCount + benchCount }}
+                </small>
+              </h3>
+              <form v-on:submit.prevent="addPeople" class="form-inline">
+                <input
+                  id="nameForm"
+                  class="form-control mr-2 w-75"
+                  autocomplete="off"
+                />
+                <button class="btn btn-outline-secondary">+</button>
+              </form>
+            </div>
           </div>
-          <div class="col-md-3">
-            <form v-on:submit.prevent="addGroups">
-              <label for="groupForm">Set Groups (no.)</label>
-              <input id="groupForm" class="form-control" />
-            </form>
-          </div>
-        </div>
-      </div>
-      <button
-        v-if="peepShow"
-        v-on:click="togglePeeps"
-        class="btn btn-outline-info"
-      >
-        Hide
-      </button>
-      <button
-        v-else="peepShow"
-        v-on:click="togglePeeps"
-        class="btn btn-outline-success"
-      >
-        Show
-      </button>
-      <div class="my-2 row">
-        <div class="col-8">
-          <h3>
-            Humans
-            <small class="text-muted">Total: {{ humansCount }}</small>
-          </h3>
-          <div class="row" v-if="peepShow">
-            <div class="col-md-4 my-2" v-for="(name,index) in people">
-              <button
-                class="btn btn-sm btn-outline-info"
-                v-on:click="benchPeople(index)"
-              >
-                <strong>-</strong>
-              </button>
-              {{ name.text }}
+          <div class="row no-gutters">
+            <div class="col">
+              <h4 class="test-nowrap">
+                Present
+                <small class="text-muted">{{ humansCount }}</small>
+              </h4>
+              <div class="row" v-if="peepShow">
+                <div class="col-12 mb-1" v-for="(name,index) in sortedPeople">
+                  <button
+                    class="btn btn-sm btn-danger w-75"
+                    v-on:click="benchPeople(index)"
+                  >
+                    {{ name.text }}
+                  </button>
+                </div>
+              </div>
+            </div>
+            <div class="col">
+              <h4>
+                Absent
+                <small class="text-muted">{{ benchCount }}</small>
+              </h4>
+              <div class="row">
+                <div
+                  class="col-12 mb-1 btn-group w-75"
+                  v-for="(name,index) in sortedBench"
+                >
+                  <button
+                    class="btn btn-sm btn-secondary w-75"
+                    v-on:click="returnFromBench(index)"
+                  >
+                    {{ name.text }}
+                  </button>
+                  <button class="btn btn-sm" v-on:click="removePeople(index)">
+                    X
+                  </button>
+                </div>
+              </div>
             </div>
           </div>
         </div>
-        <div class="col-4">
-          <h3>
-            Bench
-            <small class="text-muted">Total: {{ benchCount }}</small>
-          </h3>
-          <div class="row" v-if="peepShow">
-            <div class="col-md-4 my-2" v-for="(name,index) in bench">
-              <button
-                class="btn btn-sm btn-outline-success"
-                v-on:click="returnFromBench(index)"
+        <div class="col-md-8">
+          <div class="">
+            <h3>
+              Groups
+              <small class="text-muted">Total: {{ groupsCount }}</small>
+            </h3>
+
+            <div class="d-flex align-items-center mb-3">
+              <input
+                id="groupForm"
+                class="form-control w-25"
+                placeholder="Custom no. of Groups"
+                v-model="customGroup"
+                v-if="customGroupOption"
+                autocomplete="off"
+              />
+              <select
+                class="form-control w-25"
+                v-model="splitInto"
+                v-if="!customGroupOption"
               >
-                <strong>+</strong>
-              </button>
-              {{ name.text }}
-              <button
-                class="btn btn-sm btn-outline-danger"
-                v-on:click="removePeople(index)"
-              >
-                X
-              </button>
+                <option value="2">Pair</option>
+                <option value="3">Threes</option>
+                <option value="4">Fours</option>
+                <option value="5">Fives</option>
+                <option value="all">Order</option>
+              </select>
+
+              <div class="btn-group ml-2">
+                <button class="btn btn-danger" v-on:click="split">
+                  Shuffle
+                </button>
+                <button class="btn btn-secondary" v-on:click="arrow">
+                  Sabo
+                </button>
+                <button
+                  class="btn btn-warning"
+                  v-on:click="fill"
+                  v-if="humansCount > prePeopleCount"
+                >
+                  Fill
+                </button>
+              </div>
             </div>
-          </div>
-        </div>
-      </div>
-      <div class="my2">
-        <h3>
-          Groups
-          <small class="text-muted">Total: {{ groupsCount }}</small>
-        </h3>
-        <div class="my-3">
-          <button class="btn btn-danger" v-on:click="shuffle">Shuffle</button>
-          <button class="btn btn-primary" v-on:click="split(2)">Pair</button>
-          <button class="btn btn-info" v-on:click="split(3)">Trio</button>
-          <button class="btn btn-success" v-on:click="split(4)">Fourio</button>
-          <button class="btn btn-warning" v-on:click="split(5)">Five'o</button>
-          <button class="btn btn-secondary" v-on:click="split('all')">
-            Order
-          </button>
-          <button class="btn btn-outline-secondary" v-on:click="arrow">
-            Pick
-          </button>
-        </div>
-        <div class="row">
-          <div class="col-md-2" v-for="(group,index) in groups">
-            <div class="card mb-2">
-              <div class="card-body">
-                <h5 class="card-title">
-                  {{ group.name }}
-                </h5>
-                <p class="card-text" v-for="member in group.members">
-                  {{ member.text }}
-                </p>
+            <div class="form-check form-check-inline mb-3">
+              <input
+                type="checkbox"
+                class="form-check-input"
+                v-model="customGroupOption"
+              />
+              <label class="form-check-label">Custom Groups</label>
+            </div>
+            <div class="row">
+              <div class="col-md-4 col-6 mb-2" v-for="(group,index) in groups">
+                <div class="card h-100">
+                  <div class="card-body">
+                    <h5 class="card-title">
+                      {{ group.name }}
+                    </h5>
+                    <p class="card-text" v-for="member in group.members">
+                      {{ member.text }}
+                    </p>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
