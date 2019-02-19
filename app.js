@@ -2,6 +2,7 @@ var app = new Vue({
   el: "#app",
   data: {
     people: [],
+    prePeople: [],
     bench: [],
     groups: [],
     peepShow: true,
@@ -33,9 +34,7 @@ var app = new Vue({
       this.bench.splice(index, 1);
     },
     shuffle() {
-      for (group of this.groups) {
-        group.members = [];
-      }
+      this.clearGroups();
 
       if (this.groups.length > 0) {
         let mirror = [...this.people];
@@ -77,23 +76,49 @@ var app = new Vue({
       }
     },
     split() {
-      for (group of this.groups) {
-        group.members = [];
-      }
+      this.clearGroups();
+
       let modifier = this.people.length;
       if (modifier % 2 !== 0) modifier++;
       this.addGroups(Math.floor(modifier / this.splitInto));
+      this.prePeople = [...this.people];
       this.shuffle();
     },
     arrow() {
       let index = Math.floor(Math.random() * this.groups.length);
       let prev = document.querySelector(".bg-warning");
       let sabo = document.querySelectorAll(".card")[index];
+
       if (prev) prev.classList.toggle("bg-warning");
       sabo.classList.toggle("bg-warning");
     },
     togglePeeps() {
       this.peepShow ? (this.peepShow = false) : (this.peepShow = true);
+    },
+    fill() {
+      let newPeople = [];
+      this.people.forEach(person => {
+        if (!this.prePeople.includes(person)) newPeople.push(person);
+      });
+      while (newPeople.length > 0) {
+        if (
+          this.groups[this.groups.length - 1].members.length <
+          Number(this.splitInto)
+        ) {
+          this.groups[this.groups.length - 1].members.push(newPeople.shift());
+        } else {
+          this.groups.push({
+            name: this.groups[this.groups.length - 1].name + 1,
+            members: []
+          });
+        }
+      }
+      this.prePeople = [...this.people];
+    },
+    clearGroups() {
+      for (group of this.groups) {
+        group.members = [];
+      }
     }
   },
   computed: {
@@ -115,6 +140,9 @@ var app = new Vue({
       return this.bench.sort((a, b) =>
         a.text > b.text ? 1 : b.text > a.text ? -1 : 0
       );
+    },
+    prePeopleCount() {
+      return this.prePeople.length;
     }
   },
   watch: {
