@@ -5,7 +5,9 @@ var app = new Vue({
     bench: [],
     groups: [],
     peepShow: true,
-    customGroup: undefined
+    customGroup: undefined,
+    splitInto: "",
+    splitOption: true
   },
   methods: {
     addPeople(e, peep) {
@@ -144,6 +146,13 @@ var app = new Vue({
           this.shuffle();
         } else {
           this.groups = [];
+        }
+      }
+    },
+    splitInto: {
+      handler() {
+        if (this.splitInto != "") {
+          this.split(this.splitInto);
         }
       }
     }
